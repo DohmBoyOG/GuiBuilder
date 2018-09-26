@@ -17,7 +17,7 @@ The GuiBuilder editor menu can be opened with the toolbar button labeled "Editor
 
 ![image](https://github.com/kennethloeffler/GuiBuilder/blob/master/images/tutorial1.png)
 
-If an event has at least one assigned action, its button in the top frame will be highlighted. The element below doesn't have any assigned actions yet:
+If an event has at least one assigned action, its button in the input frame will be highlighted. The element below doesn't have any assigned actions yet:
 
 ![image](https://github.com/kennethloeffler/GuiBuilder/blob/master/images/tutorial3.png)
 
