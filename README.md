@@ -48,7 +48,7 @@ GuiActionName = { --declaration of a new GuiAction called "GuiActionName"
   StringParam = "string", --a string parameter called "StringParam"  
   NumberParam = "number" --a number parameter called "NumberParam" 
   InstanceParam = "instance", --an instance parameter called "InstanceParam"  
-  ["func"] = function(parameters, passedEventArguments) --the associated function  
+  ["func"] = function(parameters, passedEventArgumentsArray) --the associated function  
   end
 }
 ```
