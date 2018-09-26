@@ -51,4 +51,4 @@ GuiActionName = { --declaration of a new GuiAction called "GuiActionName"
 }
 ```
 
-A GuiAction necessitating external dependencies can `require()` the needed module within its associated function. A freshly edited GuiActionInfo.lua module can be hot-swapped into a running GuiBuilder instance by clicking the "Refresh GuiActions" toolbar button.
+A GuiAction necessitating an external dependency can `require()` the needed module within its associated function. A freshly edited GuiActionInfo.lua module can be hot-swapped into a running GuiBuilder instance by clicking the "Refresh GuiActions" toolbar button.
