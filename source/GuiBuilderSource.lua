@@ -153,7 +153,7 @@ main = function()
 	end
 	
 	local Toolbar = plugin:CreateToolbar("GuiBuilder")
-	local BuilderWindow = Toolbar:CreateButton("Editor", "Opens the GuiBuilder editor menu", "rbxassetid://1507949215")
+	local BuilderWindow = Toolbar:CreateButton("Editor", "Opens the GuiBuilder editor menu", "http://www.roblox.com/asset/?id=2405211207")
 	local RefreshGuiActions = Toolbar:CreateButton("Refresh GuiActions", "Refreshes the list of available GuiActions", "rbxassetid://1507949215")
 	local DockWidgetPluginGui = CreateDockWidget("GuiBuilder", "GuiBuilderEditor", Enum.InitialDockState.Float, true, true, 150, 150, 150, 150)
 	DockWidgetPluginGui.Enabled = false
