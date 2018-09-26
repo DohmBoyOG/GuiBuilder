@@ -39,7 +39,7 @@ require(game.ReplicatedStorage.GuiBuilder.GuiBuilderClientMain)
 
 # Creating custom GuiActions
 
-A GuiAction consists of a name, an arbitrary number of parameters, and a function to be called when the GuiAction's associated inout event is fired. GuiActions are defined in ReplicatedStorage.GuiBuilder.GuiActionInfo. The syntax for defining a GuiAction is as follows:
+A GuiAction consists of a name, an arbitrary number of parameters, and a function to be called when the GuiAction's associated input event is fired. GuiActions are defined in ReplicatedStorage.GuiBuilder.GuiActionInfo. The syntax for defining a GuiAction is as follows:
 
 ```
 GuiActionName = { --declaration of a new GuiAction called "GuiActionName"
