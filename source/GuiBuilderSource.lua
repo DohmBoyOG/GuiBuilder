@@ -6,7 +6,7 @@ local StudioWidgets = require(2393391735)
 	local CollapsibleTitledSection = StudioWidgets.CollapsibleTitledSection
 	local GuiUtilities = StudioWidgets.GuiUtilities
 	local ImageButtonWithText = StudioWidgets.ImageButtonWithText
-	local LabeledCheckBox = StudioWidgets.LabeledCheckBox
+	local LabeledCheckBox = StudioWidgets.LabeledCheckbox
 	local LabeledMultiChoice = StudioWidgets.LabeledMultiChoice
 	local LabeledSlider = StudioWidgets.LabeledSlider
 	local LabeledTextInput = StudioWidgets.LabeledTextInput
@@ -131,10 +131,16 @@ Events = {
 main = function()
 	
 	if not game.ReplicatedStorage:FindFirstChild("GuiBuilder") then
-		local bin = script.Parent.GuiBuilder:clone()
+		local bin = script.Parent.GuiBuilder:Clone()
 		bin.Parent = game.ReplicatedStorage		
 	end
 	GuiActionInfo = require(game.ReplicatedStorage.GuiBuilder.GuiActionInfo)
+	
+	if not game.StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("GuiBuilderClient") and (plugin:GetSetting("AutoRequire") == nil or plugin:GetSetting("AutoRequire") == true) then
+		local ls = script.Parent.GuiBuilderClient:Clone()
+		ls.Parent = game.StarterPlayer.StarterPlayerScripts
+		ls.Disabled = false
+	end
 	
 	local canCreateWindow = true
 	local isInInstanceSelection = false
@@ -155,6 +161,7 @@ main = function()
 	local Toolbar = plugin:CreateToolbar("GuiBuilder")
 	local BuilderWindow = Toolbar:CreateButton("Editor", "Opens the GuiBuilder editor menu", "http://www.roblox.com/asset/?id=2405211207")
 	local RefreshGuiActions = Toolbar:CreateButton("Refresh GuiActions", "Refreshes the list of available GuiActions", "rbxassetid://1507949215")
+	local Settings = Toolbar:CreateButton("Settings", "Opens the settings menu", "rbxassetid://1507949215")
 	local DockWidgetPluginGui = CreateDockWidget("GuiBuilder", "GuiBuilderEditor", Enum.InitialDockState.Float, true, true, 150, 150, 150, 150)
 	DockWidgetPluginGui.Enabled = false
 	
@@ -404,6 +411,56 @@ main = function()
 		game.ReplicatedStorage.GuiBuilder.GuiActionInfo:Destroy()
 		newActions.Parent = game.ReplicatedStorage.GuiBuilder
 		GuiActionInfo = require(newActions)
+	end)
+	
+	Settings.Click:connect(function()
+		local settings = {
+			AutoRequire = true
+		}
+		
+		local func = {
+			AutoRequire = function(value)
+				if game.StarterPlayer.StarterPlayerScripts:FindFirstChild("GuiBuilderClient") then
+					game.StarterPlayer.StarterPlayerScripts.GuiBuilderClient:Destroy()
+				end
+				if value then
+					local ls = script.Parent.GuiBuilderClient:Clone()
+					ls.Disabled = false
+					ls.Parent = game.StarterPlayer.StarterPlayerScripts
+				end
+			end
+		}
+		
+		local settingsWindow = CreateDockWidget("settings", "GuiBuilder Settings", Enum.InitialDockState.Float, true, true, 300, 300, 300, 300)
+		settingsWindow:BindToClose(function()
+			settingsWindow:Destroy()
+		end)
+		
+		local bg = GuiUtilities.MakeFrame("background")
+		bg.Parent = settingsWindow
+		bg.Size = UDim2.new(1, 0, 1, 0)
+		
+		local settingsList = VerticallyScalingListFrame.new("settings")
+		local settingsFrame = AutoScalingScrollingFrame.new("settings", settingsList._uiListLayout)
+		settingsFrame:GetFrame().Parent = bg
+		settingsFrame:GetFrame().Size = UDim2.new(1, 0, 1, 0)
+		settingsList:GetFrame().Parent = settingsFrame:GetFrame()
+		
+		for setting, defaultValue in pairs(settings) do
+			local element
+			if typeof(defaultValue) == "boolean" then
+				element = LabeledCheckBox.new(setting, setting, defaultValue, false)
+				element:GetFrame().Size = UDim2.new(1, 0, 0, GuiUtilities.kStandardPropertyHeight)
+				element:SetValueChangedFunction(function(value)
+					func[setting](value)
+					plugin:SetSetting(setting, value)
+				end)
+				settingsList:AddChild(element:GetFrame())
+			end
+			if plugin:GetSetting(setting) ~= nil then
+				element:SetValue(plugin:GetSetting(setting))
+			end
+		end
 	end)
 end
 
