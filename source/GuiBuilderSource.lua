@@ -10,6 +10,7 @@ local StudioWidgets = require(2393391735)
 	local LabeledMultiChoice = StudioWidgets.LabeledMultiChoice
 	local LabeledSlider = StudioWidgets.LabeledSlider
 	local LabeledTextInput = StudioWidgets.LabeledTextInput
+	local LabeledInstanceInput = StudioWidgets.LabeledInstanceInput
 	local StatefulImageButton = StudioWidgets.StatefulImageButton
 	local VerticallyScalingListFrame = StudioWidgets.VerticallyScalingListFrame
 	local CustomTextButton = StudioWidgets.CustomTextButton
@@ -160,7 +161,7 @@ main = function()
 	
 	local Toolbar = plugin:CreateToolbar("GuiBuilder")
 	local BuilderWindow = Toolbar:CreateButton("Editor", "Opens the GuiBuilder editor menu", "http://www.roblox.com/asset/?id=2405211207")
-	local RefreshGuiActions = Toolbar:CreateButton("Refresh GuiActions", "Refreshes the list of available GuiActions", "rbxasset://textures/ui/ResetIcon.png")
+	local RefreshGuiActions = Toolbar:CreateButton("Refresh GuiActions", "Refreshes the list of available GuiActions", "http://www.roblox.com/asset/?id=2408135150")
 	local Settings = Toolbar:CreateButton("Settings", "Opens the settings menu", "rbxasset://textures/ui/Settings/MenuBarIcons/GameSettingsTab.png")
 	local DockWidgetPluginGui = CreateDockWidget("GuiBuilder", "GuiBuilderEditor", Enum.InitialDockState.Float, true, true, 150, 150, 150, 150)
 	DockWidgetPluginGui.Enabled = false
@@ -276,22 +277,10 @@ main = function()
 	end
 		
 	function createInstanceParameterInput(parameter, setParams, parameterList, loadedParam, okButton, okButtonFunction)
-		local textbox = LabeledTextInput.new(parameter, parameter, loadedParam or "(none)")
-		textbox:SetMouseButton1Function(function()
-			isInInstanceSelection = true
-			game.Selection:Set({})
-			con = game.Selection.SelectionChanged:connect(function()
-			local newObj = getSelection()
-				if newObj:IsA("GuiObject") then
-					textbox:SetValue(newObj.Name)
-					setParams[parameter] = newObj
-					con:Disconnect()
-					con = nil
-					isInInstanceSelection = false
-				end
-			end)
-			repeat wait() until con == nil
-			return true
+		local textbox = LabeledInstanceInput.new(parameter, parameter, loadedParam or "")
+		textbox:SetInstanceClass("GuiObject")
+		textbox:SetInstanceChangedFunction(function()
+			setParams[parameter] = textbox:GetInstance()
 		end)
 		parameterList:AddChild(textbox:GetFrame())
 	end
