@@ -1,7 +1,7 @@
 GuiBuilder
 =
 
-#### **IMPORTANT: when the plugin is updated, you must delete the GuiBuilder folder under game.ReplicatedStorage if you wish to use the updated GuiActionInfo module. If you have custom GuiActions written in the GuiActionInfo module, make sure to copy them before you delete and update!**
+#### **IMPORTANT: when the plugin is updated, you must delete the GuiBuilder folder under game.ReplicatedStorage if you wish to use the updated GuiActionInfo module. If you have custom GuiActions written in the GuiActionInfo module, make sure to either copy them or have them stored somewhere else before you delete and update**
 
 # Introduction 
 
