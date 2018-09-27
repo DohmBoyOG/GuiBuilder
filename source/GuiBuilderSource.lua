@@ -130,7 +130,7 @@ Events = {
 
 main = function()
 	
-	if not game.ReplicatedStorage:FindFirstChild("GuiBuilder") then
+	if not game.ReplicatedStorage:WaitForChild("GuiBuilder", 2) then
 		local bin = script.Parent.GuiBuilder:Clone()
 		bin.Parent = game.ReplicatedStorage		
 	end
