@@ -37,7 +37,7 @@ ReplicatedStorage.GuiBuilder.GuiBuilderClientMain **must** be required by the cl
 require(game.ReplicatedStorage.GuiBuilder.GuiBuilderClientMain)
 ```
 
-GuiBuilder inserts this LocalScript automatically; if you would like to load the module yourself, the automatic require can be disabled with AutoRequire setting in the settings menu.
+GuiBuilder inserts this LocalScript automatically; if you would like to load the module yourself, the automatic require can be disabled through the AutoRequire setting in the settings menu.
 
 # Creating custom GuiActions
 
