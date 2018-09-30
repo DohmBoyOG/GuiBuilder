@@ -131,18 +131,6 @@ Events = {
 
 main = function()
 	
-	if not game.ReplicatedStorage:WaitForChild("GuiBuilder", 2) then
-		local bin = script.Parent.GuiBuilder:Clone()
-		bin.Parent = game.ReplicatedStorage		
-	end
-	GuiActionInfo = require(game.ReplicatedStorage.GuiBuilder.GuiActionInfo)
-	
-	if not game.StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("GuiBuilderClient") and (plugin:GetSetting("AutoRequire") == nil or plugin:GetSetting("AutoRequire") == true) then
-		local ls = script.Parent.GuiBuilderClient:Clone()
-		ls.Parent = game.StarterPlayer.StarterPlayerScripts
-		ls.Disabled = false
-	end
-	
 	local canCreateWindow = true
 	local isInInstanceSelection = false
 	
@@ -163,8 +151,35 @@ main = function()
 	local BuilderWindow = Toolbar:CreateButton("Editor", "Opens the GuiBuilder editor menu", "http://www.roblox.com/asset/?id=2405211207")
 	local RefreshGuiActions = Toolbar:CreateButton("Refresh GuiActions", "Refreshes the list of available GuiActions", "http://www.roblox.com/asset/?id=2408135150")
 	local Settings = Toolbar:CreateButton("Settings", "Opens the settings menu", "rbxasset://textures/ui/Settings/MenuBarIcons/GameSettingsTab.png")
-	local DockWidgetPluginGui = CreateDockWidget("GuiBuilder", "GuiBuilderEditor", Enum.InitialDockState.Float, true, true, 150, 150, 150, 150)
-	DockWidgetPluginGui.Enabled = false
+	local DockWidgetPluginGui = CreateDockWidget("GuiBuilder", "GuiBuilderEditor", Enum.InitialDockState.Float, true, false, 150, 150, 150, 150)
+	
+	spawn(function()
+		while wait(0.5) do
+			if DockWidgetPluginGui.Parent ~= nil then
+				if not game.ReplicatedStorage:WaitForChild("GuiBuilder", 2) then
+					local bin = script.Parent.GuiBuilder:Clone()
+				bin.Parent = game.ReplicatedStorage		
+				end
+				GuiActionInfo = require(game.ReplicatedStorage.GuiBuilder.GuiActionInfo)
+			else
+				break
+			end
+		end
+	end)
+	
+	spawn(function() 
+		while wait(0.5) do
+			if DockWidgetPluginGui.Parent ~= nil then
+				if not game.StarterPlayer:WaitForChild("StarterPlayerScripts"):FindFirstChild("GuiBuilderClient") and (plugin:GetSetting("AutoRequire") == nil or plugin:GetSetting("AutoRequire") == true) then
+					local ls = script.Parent.GuiBuilderClient:Clone()
+					ls.Parent = game.StarterPlayer.StarterPlayerScripts
+					ls.Disabled = false
+				end
+			else
+				break
+			end
+		end
+	end)
 	
 	local InputList = VerticallyScalingListFrame.new("InputList")
 	local InputFrame = AutoScalingScrollingFrame.new("InputFrame", InputList._uiListLayout)
@@ -375,17 +390,22 @@ main = function()
 		end
 	end
 	
-	game.Selection.SelectionChanged:connect(function()
-		local obj = getSelection()
-		if obj then
-			if canCreateWindow and not isInInstanceSelection and obj:IsA("GuiObject") then
-				updateInputFrame(obj)			
+	local selectionCon
+	selectionCon = game.Selection.SelectionChanged:connect(function()
+		if DockWidgetPluginGui.Parent ~= nil then
+			local obj = getSelection()
+			if obj then
+				if canCreateWindow and not isInInstanceSelection and obj:IsA("GuiObject") then
+					updateInputFrame(obj)			
+				end
+			else
+				clearFrame(InputList:GetFrame())
+				clearFrame(ActionList:GetFrame())
+				InputSection._frame.TitleBarVisual.TitleLabel.Text = "No element selected!"
+				ActionSection._frame.TitleBarVisual.TitleLabel.Text = "No element selected!"
 			end
 		else
-			clearFrame(InputList:GetFrame())
-			clearFrame(ActionList:GetFrame())
-			InputSection._frame.TitleBarVisual.TitleLabel.Text = "No element selected!"
-			ActionSection._frame.TitleBarVisual.TitleLabel.Text = "No element selected!"
+			selectionCon:Disconnect()
 		end
 	end)
 
