@@ -283,6 +283,14 @@ main = function()
 		parameterList:AddChild(textbox:GetFrame())
 	end
 	
+	function createBoolParameterInput(parameter, setParams, parameterList, loadedParam)
+		local checkbox = LabeledCheckBox.new(parameter, parameter, loadedParam)
+		checkbox:SetValueChangedFunction(function()
+			setParams[parameter] = checkbox:GetValue()
+		end)
+		parameterList:AddChild(checkbox:GetFrame())
+	end
+	
 	function createNumberParameterInput(parameter, setParams, parameterList, loadedParam, okButton, okButtonFunction)
 		local textbox = LabeledTextInput.new(parameter, parameter, loadedParam or "0")
 		textbox:SetValueChangedFunction(function()
@@ -372,6 +380,9 @@ main = function()
 					elseif parameter:IsA("StringValue") then
 						createStringParameterInput(parameter.Name, setParams, parameterList, parameter.Value)
 						setParams[parameter.Name] = parameter.Value
+					elseif parameter:IsA("BoolValue") then
+						createBoolParameterInput(parameter.Name, setParams, parameterList, parameter.Value)
+						setParams[parameter.Name] = parameter.Value
 					end
 				end
 			else
@@ -384,6 +395,9 @@ main = function()
 					elseif _type == "string" then
 						createStringParameterInput(parameter, setParams, parameterList)
 						setParams[parameter] =	""
+					elseif _type == "boolean" then
+						createBoolParameterInput(parameter, setParams, parameterList)
+						setParams[parameters] = true
 					end
 				end
 			end
