@@ -5,7 +5,7 @@ GuiBuilder
 
 # Introduction 
 
-GuiBuilder is a Roblox gui development plugin that allows predefined "GuiActions" to be assigned to input events of gui elements.
+GuiBuilder is a Roblox static gui development plugin that allows predefined "GuiActions" to be assigned to input events of gui elements.
 
 ## Design goals:
 
