@@ -35,6 +35,11 @@ function GuiAction.new(element, event, funcName, parameters)
 			paramRef.Name = param
 			paramRef.Value = v
 			paramRef.Parent = container
+		elseif typeof(v) == "boolean" then
+			local paramRef = Instance.new("BoolValue")
+			paramRef.Name = param
+			paramRef.Value = v
+			paramRef.Parent = container
 		end
 	end
 	
