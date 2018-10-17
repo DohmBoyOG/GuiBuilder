@@ -15,7 +15,7 @@ GuiBuilder is a Roblox static gui development plugin that allows predefined "Gui
 
 # The GuiBuilder interface
 
-The GuiBuilder editor menu can be opened with the toolbar button labeled "Editor." Once the editor is open, a desired gui element's input events may be viewed by selecting it. Clicking on an input event in the after selecting an element will display the input's assigned GuiActions:
+The GuiBuilder editor menu can be opened with the toolbar button labeled "Editor." Once the editor is open, a desired gui element's input events may be viewed by selecting it. Clicking on an input event in the input frame (the frame at the top of the editor window) after selecting an element will display the input's assigned GuiActions:
 
 ![image](https://github.com/kennethloeffler/GuiBuilder/blob/master/images/tutorial1.png)
 
