@@ -1,5 +1,9 @@
 local CollectionService = game:GetService("CollectionService")
 
+if not game:GetService("RunService"):IsServer() then
+	repeat wait() until false
+end
+
 local GuiActionInfo
 local GuiAction = require(script.Parent.GuiAction)
 local StudioWidgets = require(2393391735)
