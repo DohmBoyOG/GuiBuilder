@@ -1,3 +1,5 @@
+# Forgotten, bad prototype. Beware!
+
 GuiBuilder
 =
 
